@@ -65,10 +65,9 @@ defmodule SermonFinder.Passage do
     end
   end
 
-  def compare(passage, scripture_ref) do
-    passage2 = new(scripture_ref)
-    passage.book == passage2.book &&
-    compare_verses(passage, passage2)
+  def compare(passage, other_passage) do
+    passage.book == other_passage.book &&
+    compare_verses(passage, other_passage)
   end
 
   defp compare_verses(passage, passage2) do
