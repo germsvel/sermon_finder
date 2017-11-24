@@ -62,50 +62,82 @@ defmodule SermonFinder.PassageTest do
     end
   end
 
-  describe ".compare/2" do
+  describe ".similar?/2" do
     test "returns true when the passages are the same" do
       passage = Passage.new("Romans 3:23-25")
+      other_passage = Passage.new("Romans 3:23-25")
 
-      similar = Passage.new("Romans 3:23-25")
-              |> Passage.compare(passage)
+      assert Passage.similar?(passage, other_passage)
+    end
 
-      assert similar
+    test "returns true when the passages are the same and only one verse" do
+      passage = Passage.new("Romans 3:23")
+      other_passage = Passage.new("Romans 3:23")
+
+      assert Passage.similar?(passage, other_passage)
     end
 
     test "returns false when passages have different books" do
-      passage = Passage.new("James 3:12")
+      passage = Passage.new("Romans 3:12")
+      other_passage = Passage.new("James 3:12")
 
-      similar = Passage.new("Romans 3:12")
-              |> Passage.compare(passage)
-
-      refute similar
+      refute Passage.similar?(passage, other_passage)
     end
 
     test "returns false when passages have different chapters" do
-      passage = Passage.new("Romans 4:12")
+      passage = Passage.new("Romans 3:12")
+      other_passage = Passage.new("Romans 4:12")
 
-      similar = Passage.new("Romans 3:12")
-              |> Passage.compare(passage)
-
-      refute similar
+      refute Passage.similar?(passage, other_passage)
     end
 
-    test "returns false when first_verse is >= 2 away from the original.first_verse" do
-      passage = Passage.new("Romans 3:10-15")
+    test "returns true when last verse matches" do
+      passage = Passage.new("Romans 3:12-15")
+      other_passage = Passage.new("Romans 3:10-15")
 
-      similar = Passage.new("Romans 3:12-15")
-              |> Passage.compare(passage)
-
-      refute similar
+      assert Passage.similar?(passage, other_passage)
     end
 
-    test "returns false when last_verse is >= 2 away from the original.last_verse" do
-      passage = Passage.new("Romans 3:9-14")
+    test "returns true when first verse matches" do
+      passage = Passage.new("Romans 3:9-12")
+      other_passage = Passage.new("Romans 3:9-14")
 
-      similar = Passage.new("Romans 3:9-12")
-              |> Passage.compare(passage)
+      assert Passage.similar?(passage, other_passage)
+    end
 
-      refute similar
+    test "returns true when the left-side portion overlaps" do
+      passage = Passage.new("Romans 3:9-12")
+      other_passage = Passage.new("Romans 3:7-10")
+
+      assert Passage.similar?(passage, other_passage)
+    end
+
+    test "returns true when the right-side portion overlaps" do
+      passage = Passage.new("Romans 3:9-12")
+      other_passage = Passage.new("Romans 3:10-14")
+
+      assert Passage.similar?(passage, other_passage)
+    end
+
+    test "returns false if no portion of verses overlap" do
+      passage = Passage.new("Romans 3:9-12")
+      other_passage = Passage.new("Romans 3:1-8")
+
+      refute Passage.similar?(passage, other_passage)
+    end
+
+    test "returns true when the passage is contained within the other passage" do
+      passage = Passage.new("Romans 3:20-23")
+      other_passage = Passage.new("Romans 3:1-27")
+
+      assert Passage.similar?(passage, other_passage)
+    end
+
+    test "returns false when passage is broader than the other passage" do
+      passage  = Passage.new("Romans 3:1-27")
+      other_passage = Passage.new("Romans 3:20-23")
+
+      refute Passage.similar?(passage, other_passage)
     end
   end
 end

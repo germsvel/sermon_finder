@@ -65,17 +65,15 @@ defmodule SermonFinder.Passage do
     end
   end
 
-  def compare(passage, other_passage) do
+  def similar?(passage, other_passage) do
     passage.book == other_passage.book &&
-    compare_verses(passage, other_passage)
+    similar_verses?(passage, other_passage)
   end
 
-  defp compare_verses(passage, passage2) do
-    ((passage.from == passage2.from) && within(passage.to, passage2.to, 2)) ||
-    ((passage.to == passage2.to) && within(passage.from, passage2.from, 2))
-  end
-
-  defp within(num1, num2, tolerance) do
-    abs(num1 - num2) < tolerance
+  defp similar_verses?(passage, passage2) do
+    Range.new(passage2.from, passage2.to)
+    |> Enum.any?(fn ch_verse ->
+      ch_verse == passage.from || ch_verse == passage.to
+    end)
   end
 end

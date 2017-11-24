@@ -1,14 +1,15 @@
 defmodule SermonFinder.Sermon do
-  alias SermonFinder.Passage
+  alias SermonFinder.{Passage, Sermon}
 
   defstruct [:url, :title, :author, :scripture_reference, :date, :type, :source]
 
   def new do
-    %SermonFinder.Sermon{}
+    %Sermon{}
   end
 
   def relevant_for_passage?(resource, passage) do
-    Passage.compare(passage, resource.scripture_reference)
+    other_passage = Passage.new(resource.scripture_reference)
+    Passage.similar?(passage, other_passage)
   end
 
   def add_type(resource, type) do
