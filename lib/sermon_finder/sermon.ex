@@ -7,36 +7,36 @@ defmodule SermonFinder.Sermon do
     %Sermon{}
   end
 
-  def relevant_for_passage?(resource, passage) do
-    other_passage = Passage.new(resource.scripture_reference)
+  def relevant_for_passage?(sermon, passage) do
+    other_passage = Passage.new(sermon.scripture_reference)
     Passage.similar?(passage, other_passage)
   end
 
-  def add_type(resource, type) do
-    %{resource | type: type}
+  def add_type(%Sermon{} = sermon, type) do
+    %{sermon | type: type}
   end
 
-  def add_title(resource, title) do
-    %{resource | title: title}
+  def add_title(%Sermon{} = sermon, title) do
+    %{sermon | title: title}
   end
 
-  def add_url(resource, url) do
-    %{resource | url: url}
+  def add_url(%Sermon{} = sermon, url) do
+    %{sermon | url: url}
   end
 
-  def add_scripture_ref(resource, scripture_ref) do
-    %{resource | scripture_reference: scripture_ref}
+  def add_scripture_ref(%Sermon{} = sermon, scripture_ref) do
+    %{sermon | scripture_reference: scripture_ref}
   end
 
-  def add_date(resource, date) do
-    %{resource | date: date}
+  def add_date(%Sermon{} = sermon, date) do
+    %{sermon | date: date}
   end
 
-  def add_author(resource, author) do
-    %{resource | author: author}
+  def add_author(%Sermon{} = sermon, author) do
+    %{sermon | author: author}
   end
 
-  def add_source(resource, source) do
-    %{resource | source: source}
+  def add_source(%Sermon{} = sermon, source) do
+    %{sermon | source: source}
   end
 end
