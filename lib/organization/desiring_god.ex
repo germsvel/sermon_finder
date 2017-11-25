@@ -1,8 +1,7 @@
 defmodule SermonFinder.Organization.DesiringGod do
-  alias SermonFinder.Sermon
-  alias SermonFinder.HTTPClient
+  alias SermonFinder.{Sermon, HTTPClient, Passage}
 
-  @base_url "http://www.desiringgod.org"
+  @base_url "https://www.desiringgod.org"
 
   def find(passage) do
     generate_url(passage)
@@ -12,7 +11,8 @@ defmodule SermonFinder.Organization.DesiringGod do
   end
 
   defp generate_url(passage) do
-    "#{@base_url}/scripture/#{passage.book}/#{passage.chapter}/messages"
+    chapter = Passage.chapter(passage.from)
+    "#{@base_url}/scripture/#{passage.book}/#{chapter}/messages"
   end
 
   defp request_page(url) do
