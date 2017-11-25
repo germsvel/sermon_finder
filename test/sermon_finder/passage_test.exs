@@ -62,6 +62,14 @@ defmodule SermonFinder.PassageTest do
     end
   end
 
+  describe ".chapter/1" do
+    test "returns chapter portion of chapter-verse combination" do
+      passage = Passage.new("Romans 3:23-25")
+
+      assert Passage.chapter(passage.from) == 3
+    end
+  end
+
   describe ".similar?/2" do
     test "returns true when the passages are the same" do
       passage = Passage.new("Romans 3:23-25")

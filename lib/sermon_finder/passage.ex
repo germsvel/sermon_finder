@@ -65,6 +65,11 @@ defmodule SermonFinder.Passage do
     end
   end
 
+  def chapter(ch_verses) do
+    {chapter, verses} = Verse.from_thousand_format(ch_verses)
+    chapter
+  end
+
   def similar?(passage, other_passage) do
     passage.book == other_passage.book &&
     similar_verses?(passage, other_passage)
