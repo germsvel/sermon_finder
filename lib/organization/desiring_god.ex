@@ -39,7 +39,7 @@ defmodule SermonFinder.Organization.DesiringGod do
   end
 
   defp add_url(resource, html_tree) do
-    [relative_url] = Floki.find(html_tree, ".card__inner")
+    [relative_url] = Floki.find(html_tree, ".card__shadow")
                   |> Floki.attribute("href")
                   |> Enum.take(1)
 
@@ -57,7 +57,7 @@ defmodule SermonFinder.Organization.DesiringGod do
     Sermon.add_date(resource, search_tree(html_tree, ".card--resource__date"))
   end
   defp add_author(resource, html_tree) do
-    author = search_tree(html_tree, ".card--resource__author") |> String.trim
+    author = search_tree(html_tree, ".card__author") |> String.trim
     Sermon.add_author(resource, author)
   end
 
